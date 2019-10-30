@@ -1,0 +1,109 @@
+// В этом файле должны быть стили для БЭМ-блока main-nav, его элементов,
+// модификаторов, псевдоселекторов, псевдоэлементов, @media-условий...
+// Очередность: http://nicothin.github.io/idiomatic-pre-CSS/#priority
+
+$gray-lightest:               hsl(0, 0%, 90%) !default;
+
+$screen-xs:                   0 !default;
+$screen-sm:                   480px !default;
+$screen-md:                   768px !default;
+$screen-lg:                   992px !default;
+$screen-xl:                   1200px !default;
+$screen-xxl:                  1800px !default;
+
+$menu-desktop-width:          $screen-xl !default;
+$toggler-part-height:         3px !default;
+$toggler-part-bg-color:       #000 !default;
+
+$transition-time:             0.3s !default;
+
+.main-nav {
+
+  $block-name:                &; // #{$block-name}__element
+
+  // position: relative;
+  z-index: 10;
+
+  // первый уровень
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    // мобильный вид списка
+    @media (max-width: ($menu-desktop-width - 1)) {
+
+      // открытие/закрытие меню только в случае работающего JS
+
+      .js & {
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.2s;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: darken($color-main, 3%);
+        z-index: 10;
+      }
+
+      .js #{$block-name}--open & {
+        max-height: 100vh;
+        transition: max-height 0.6s;
+      }
+    }
+
+    // настольный вид списка
+    @media (min-width: $menu-desktop-width) {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+
+  &__item {
+    position: relative;
+
+    @media (min-width: $menu-desktop-width) {
+      margin-right: 1.6em;
+    }
+  }
+
+  &__link {
+    display: block;
+    padding: 0.5em;
+    text-decoration: none;
+    color: inherit;
+
+    @media (max-width: ($menu-desktop-width - 1)) {
+      padding: 1em 1.5em;
+      border-bottom: 1px solid darken($color-main, 5%);
+      border-top: 1px solid darken($color-main, 5%);
+    }
+
+    // &.active {
+    //   color: rgba(#fff, 0.7);
+    // }
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+
+  // переключатель
+
+  &__toggler {
+    display: inline-block;
+    padding: 0;
+    background: none;
+    border: none;
+
+    .no-js & {
+      display: none;
+    }
+
+    @media (min-width: $menu-desktop-width) {
+      display: none;
+    }
+  }
+}
